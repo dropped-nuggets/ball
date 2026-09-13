@@ -1,0 +1,489 @@
+@import "tailwindcss";
+
+/*
+ * `static` is required, not stylistic.
+ *
+ * Tailwind v4 drops theme variables it cannot see referenced in the source,
+ * and the seal colours are composed at runtime — `var(--color-seal-${seal})`
+ * for letter wax, diary moods and section icons. Those strings never appear
+ * literally, so without `static` Tailwind removes them and the colours
+ * silently fall back to nothing.
+ */
+@theme static {
+  /* --- Purple core -------------------------------------------------- */
+  --color-night: #17111f;
+  --color-plum: #241a33;
+  --color-plum-2: #32254a;
+  --color-violet: #7c5cbf;
+  --color-lilac: #c9b3f0;
+  --color-blossom: #e8d7f7;
+
+  /* --- Paper + filigree (Inazuma-style gold on purple) --------------- */
+  --color-parchment: #f4ece2;
+  --color-parchment-2: #fbf6ef;
+  --color-ink: #4a3f58;
+  --color-gilt: #e0c893;
+  --color-gilt-deep: #b4935a;
+
+  /* --- Forest (environmental science) ------------------------------- */
+  --color-moss: #7fa86b;
+  --color-fern: #a8cf8e;
+
+  /* --- Patan / Newari architecture ---------------------------------- */
+  --color-brick: #b5654a;
+  --color-teak: #6b4a3a;
+
+  /* --- Wax-seal colours for letters and diary moods ----------------- */
+  --color-seal-moss: #7fa86b;
+  --color-seal-plum: #9b6fd4;
+  --color-seal-marigold: #e8a33d;
+  --color-seal-rose: #d97a90;
+  --color-seal-sky: #6fb8d9;
+  --color-seal-dusk: #8f7fc4;
+  --color-seal-brick: #b5654a;
+
+  --font-display: "Cormorant Garamond", "Georgia", serif;
+}
+
+html,
+body {
+  background: var(--color-night);
+  color: var(--color-blossom);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  min-height: 100dvh;
+  /*
+   * Safety net for phones: a single stray wide element should never make the
+   * whole page pan sideways. Anything that genuinely needs to scroll wide
+   * (the bingo board, thumbnail strips) carries its own overflow-x-auto.
+   */
+  overflow-x: hidden;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/*
+ * Dusk over the Kathmandu valley: violet sky, a wash of moss at the horizon.
+ *
+ * background-color is set SEPARATELY from background-image on purpose. Using
+ * the `background` shorthand here meant any later rule setting only
+ * `background-image` (.ankhi-jhyal does) wiped the gradients out and left the
+ * element fully transparent — which made the opening-gate curtains see-through.
+ */
+.rijuko-sky {
+  background-color: var(--color-night);
+  background-image:
+    radial-gradient(
+      ellipse 120% 80% at 50% 0%,
+      rgba(124, 92, 191, 0.28),
+      transparent 62%
+    ),
+    radial-gradient(
+      ellipse 80% 50% at 15% 85%,
+      rgba(127, 168, 107, 0.14),
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 70% 45% at 85% 15%,
+      rgba(201, 179, 240, 0.12),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #140f1c 0%, #1d1529 45%, #2a1f3d 100%);
+}
+
+/*
+ * Ankhi jhyal — the carved lattice window of Newari houses in Pimbahal.
+ * Used as a faint overlay so the whole site sits behind Patan woodwork.
+ */
+.ankhi-jhyal {
+  background-image:
+    repeating-linear-gradient(
+      45deg,
+      rgba(224, 200, 147, 0.07) 0 1px,
+      transparent 1px 14px
+    ),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(224, 200, 147, 0.07) 0 1px,
+      transparent 1px 14px
+    );
+}
+
+/* ------------------------------------------------------------------ *
+ * Keyframes
+ * ------------------------------------------------------------------ */
+
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes pulse-soft {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.04);
+  }
+}
+@keyframes float-up {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120px) scale(0.4);
+    opacity: 0;
+  }
+}
+/* Leaves drift sideways as they fall, unlike light motes. */
+@keyframes leaf-fall {
+  0% {
+    transform: translateY(-10px) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.85;
+  }
+  100% {
+    transform: translateY(110px) translateX(34px) rotate(220deg);
+    opacity: 0;
+  }
+}
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+@keyframes wish-burst {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(3.2);
+    opacity: 0;
+  }
+}
+@keyframes curtain-up {
+  to {
+    transform: translateY(-101%);
+  }
+}
+@keyframes curtain-down {
+  to {
+    transform: translateY(101%);
+  }
+}
+@keyframes rise-in {
+  from {
+    transform: translateY(18px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes seal-crack {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  40% {
+    transform: scale(1.25) rotate(8deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.2) rotate(22deg);
+    opacity: 0;
+  }
+}
+/* Between-page transition: a band of light crossing the viewport. */
+@keyframes sweep-across {
+  0% {
+    transform: translateX(-120%) skewX(-12deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(320%) skewX(-12deg);
+    opacity: 0;
+  }
+}
+
+/* New page content settling in behind the sweep. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.995);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Cutesy idle bob for icons and little ornaments. */
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes sparkle {
+  0%,
+  100% {
+    transform: scale(0.6) rotate(0deg);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1) rotate(90deg);
+    opacity: 1;
+  }
+}
+
+/* ------------------------------------------------------------------ *
+ * Animation utilities
+ * ------------------------------------------------------------------ */
+
+.anim-spin-slow {
+  animation: spin-slow 18s linear infinite;
+}
+.anim-spin-rev {
+  animation: spin-rev 26s linear infinite;
+}
+.anim-spin-fast {
+  animation: spin-slow 6s linear infinite;
+}
+.anim-pulse-soft {
+  animation: pulse-soft 3.2s ease-in-out infinite;
+}
+.anim-float {
+  animation: float-up 6s linear infinite;
+}
+.anim-leaf {
+  animation: leaf-fall 11s linear infinite;
+}
+.anim-twinkle {
+  animation: twinkle 3s ease-in-out infinite;
+}
+.anim-burst {
+  animation: wish-burst 1.5s ease-out forwards;
+}
+.anim-curtain-up {
+  animation: curtain-up 1.1s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+.anim-curtain-down {
+  animation: curtain-down 1.1s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+.anim-rise {
+  animation: rise-in 0.7s ease-out both;
+}
+.anim-seal-crack {
+  animation: seal-crack 0.8s ease-out forwards;
+}
+.anim-bob {
+  animation: bob 4s ease-in-out infinite;
+}
+.anim-sweep {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(224, 200, 147, 0.16) 35%,
+    rgba(201, 179, 240, 0.3) 50%,
+    rgba(224, 200, 147, 0.16) 65%,
+    transparent
+  );
+  animation: sweep-across 0.62s cubic-bezier(0.5, 0, 0.3, 1) forwards;
+}
+.anim-page-in {
+  animation: page-in 0.42s ease-out both;
+}
+.anim-sparkle {
+  animation: sparkle 2.6s ease-in-out infinite;
+}
+
+.gilt-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(224, 200, 147, 0.6) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.4s linear infinite;
+}
+
+/* ------------------------------------------------------------------ *
+ * Surfaces
+ * ------------------------------------------------------------------ */
+
+/* Warm paper card with gilt hairline — soft and round, not severe. */
+.panel {
+  background: linear-gradient(
+    180deg,
+    var(--color-parchment-2),
+    var(--color-parchment)
+  );
+  color: var(--color-ink);
+  border: 1px solid var(--color-gilt-deep);
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.55) inset,
+    0 14px 34px -14px rgba(23, 17, 31, 0.85);
+}
+
+/*
+ * Newari card: plum ground warmed with Patan brick, edged in teak and gilt the
+ * way a carved window frame is.
+ */
+.panel-dark {
+  background:
+    radial-gradient(
+      ellipse 90% 70% at 50% 0%,
+      rgba(181, 101, 74, 0.16),
+      transparent 70%
+    ),
+    linear-gradient(180deg, var(--color-plum-2), var(--color-plum));
+  color: var(--color-blossom);
+  border: 1px solid rgba(224, 200, 147, 0.4);
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 1px rgba(107, 74, 58, 0.35) inset,
+    0 14px 34px -14px rgba(23, 17, 31, 0.9);
+}
+
+/*
+ * Patan brickwork — the running bond of the old city walls, at low contrast.
+ * Layer behind content, never over it.
+ */
+.newari-brick {
+  background-image:
+    linear-gradient(
+      transparent 0 9px,
+      rgba(181, 101, 74, 0.1) 9px 10px,
+      transparent 10px 20px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(181, 101, 74, 0.1) 0 1px,
+      transparent 1px 32px
+    );
+  background-size:
+    100% 20px,
+    32px 20px;
+}
+
+.gilt-rule {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--color-gilt),
+    transparent
+  );
+}
+
+.btn-violet {
+  background: linear-gradient(180deg, #6b4fa8, #4a3575);
+  border: 1px solid var(--color-gilt);
+  color: var(--color-blossom);
+  border-radius: 999px;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+.btn-violet:hover {
+  background: linear-gradient(180deg, #7f5fc4, #573e88);
+  box-shadow: 0 0 22px -4px var(--color-violet);
+  transform: translateY(-1px);
+}
+.btn-violet:active {
+  transform: translateY(0);
+}
+.btn-violet:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.field {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid var(--color-gilt-deep);
+  border-radius: 12px;
+  color: var(--color-ink);
+  outline: none;
+}
+.field:focus {
+  border-color: var(--color-violet);
+  box-shadow: 0 0 0 3px rgba(124, 92, 191, 0.28);
+}
+.field::placeholder {
+  color: #9a8fa8;
+}
+
+.letter-body {
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  line-height: 1.95;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-spin-slow,
+  .anim-spin-rev,
+  .anim-spin-fast,
+  .anim-pulse-soft,
+  .anim-float,
+  .anim-leaf,
+  .anim-twinkle,
+  .anim-burst,
+  .anim-rise,
+  .anim-bob,
+  .anim-sparkle,
+  .anim-sweep,
+  .anim-page-in,
+  .gilt-shimmer {
+    animation: none !important;
+  }
+}

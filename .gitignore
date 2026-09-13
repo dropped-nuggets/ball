@@ -1,0 +1,14 @@
+node_modules
+.next
+out
+build
+.DS_Store
+*.pem
+.env
+.env*.local
+.vercel
+next-env.d.ts
+*.tsbuildinfo
+
+# Local dev data store (photos, diary entries, letters written on your machine)
+/.data
