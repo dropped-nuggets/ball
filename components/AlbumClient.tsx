@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Panel } from "./Frame";
+import { EmptyState, Panel } from "./Frame";
 import { resizeToDataUrl } from "@/lib/resizeImage";
 import type { Photo } from "@/lib/types";
 
@@ -108,15 +108,10 @@ export default function AlbumClient({
       {/* Carousel */}
       <Panel dark className="overflow-hidden p-4 sm:p-6">
         {count === 0 ? (
-          <div className="grid place-items-center py-20 text-center">
-            <p className="font-display text-2xl text-lilac/70">
-              No photos yet.
-            </p>
-            <p className="mt-2 max-w-sm text-sm text-blossom/50">
-              Start with the ugliest one on your camera roll. It sets the tone
-              for the whole album.
-            </p>
-          </div>
+          <EmptyState title="No photos yet.">
+            Start with the ugliest one on your camera roll. It sets the tone for
+            the whole album.
+          </EmptyState>
         ) : (
           <>
             <div className="relative overflow-hidden rounded-2xl bg-night/60">

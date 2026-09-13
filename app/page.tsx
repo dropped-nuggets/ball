@@ -1,5 +1,6 @@
 import Link from "next/link";
-import Motes, { Leaves, Skyline, Stars } from "@/components/Motes";
+import Motes, { Skyline, Stars } from "@/components/Motes";
+import Frieze from "@/components/Frieze";
 import { Panel } from "@/components/Frame";
 import DailyDose from "@/components/DailyDose";
 import FlightPath from "@/components/FlightPath";
@@ -100,7 +101,7 @@ export default async function Home() {
     <div className="relative">
       <Stars count={50} />
       <Motes count={20} />
-      <Leaves count={7} />
+      <Frieze variant="valley" leaves={7} />
 
       <section className="relative py-10 text-center sm:py-14">
         <p className="text-[11px] tracking-[0.3em] text-moss/70">

@@ -1,6 +1,6 @@
 import MixtapeClient from "@/components/MixtapeClient";
 import { SectionTitle } from "@/components/Frame";
-import Motes from "@/components/Motes";
+import Frieze from "@/components/Frieze";
 import { listSongs } from "@/lib/store";
 
 import { guardPage } from "@/lib/guard";
@@ -14,7 +14,7 @@ export default async function MixtapePage() {
 
   return (
     <div className="relative">
-      <Motes count={16} />
+      <Frieze variant="festival" />
       <SectionTitle sub="Songs for missing a place. Anyone can add one.">
         The Mixtape
       </SectionTitle>

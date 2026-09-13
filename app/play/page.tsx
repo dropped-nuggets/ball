@@ -1,5 +1,5 @@
 import PlayClient from "@/components/PlayClient";
-import { Leaves } from "@/components/Motes";
+import Frieze from "@/components/Frieze";
 import { listSpecies } from "@/lib/store";
 import { guardPage } from "@/lib/guard";
 
@@ -12,7 +12,7 @@ export default async function PlayPage() {
 
   return (
     <div className="relative">
-      <Leaves count={5} />
+      <Frieze variant="jungle" />
       <PlayClient customSpecies={customSpecies} />
     </div>
   );

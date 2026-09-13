@@ -1,5 +1,5 @@
 import CalendarClient from "@/components/CalendarClient";
-import Motes from "@/components/Motes";
+import Frieze from "@/components/Frieze";
 import { listEvents } from "@/lib/store";
 import { guardPage } from "@/lib/guard";
 
@@ -16,7 +16,7 @@ export default async function CalendarPage() {
 
   return (
     <div className="relative">
-      <Motes count={12} />
+      <Frieze variant="festival" />
       <CalendarClient initialEvents={events} todayISO={todayISO} />
     </div>
   );

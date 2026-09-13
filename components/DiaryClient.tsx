@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Panel } from "./Frame";
+import { EmptyState, Panel } from "./Frame";
 import Scrapbook from "./Scrapbook";
 import type { DiaryEntry, Photo } from "@/lib/types";
 
@@ -133,9 +133,11 @@ export default function DiaryClient({
       </Panel>
 
       {entries.length === 0 ? (
-        <p className="py-10 text-center text-sm text-blossom/45">
-          Nothing written yet. The first one is always the hardest.
-        </p>
+        <Panel dark className="overflow-hidden p-0">
+          <EmptyState title="Nothing written yet.">
+            The first one is always the hardest.
+          </EmptyState>
+        </Panel>
       ) : (
         <ul className="space-y-4">
           {entries.map((entry) => {

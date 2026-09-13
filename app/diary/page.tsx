@@ -1,6 +1,6 @@
 import DiaryClient from "@/components/DiaryClient";
 import { SectionTitle } from "@/components/Frame";
-import { Leaves } from "@/components/Motes";
+import Frieze from "@/components/Frieze";
 import { listDiary, listPhotos } from "@/lib/store";
 
 import { guardPage } from "@/lib/guard";
@@ -14,7 +14,7 @@ export default async function DiaryPage() {
 
   return (
     <div className="relative">
-      <Leaves count={5} />
+      <Frieze variant="valley" />
       <SectionTitle sub="One line counts. Stick photos on it. Make it yours.">
         The Diary
       </SectionTitle>

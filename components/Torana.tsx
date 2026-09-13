@@ -6,6 +6,54 @@
  * around Pimbahal. Used here as a crown for cards and section headers.
  */
 
+/**
+ * Kirtimukha — the guardian face over a Newari doorway, abstracted to a
+ * rosette. Drawn at its own aspect ratio and centred, never stretched.
+ */
+export function Kirtimukha({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 28 28" className={`pointer-events-none ${className}`} aria-hidden>
+      {/* Rays */}
+      {[0, 30, 60, 90, 120, 150].map((a) => (
+        <rect
+          key={a}
+          x="13.3"
+          y="2"
+          width="1.4"
+          height="24"
+          rx="0.7"
+          fill="var(--color-gilt)"
+          opacity="0.35"
+          transform={`rotate(${a} 14 14)`}
+        />
+      ))}
+      <circle cx="14" cy="14" r="7" fill="var(--color-teak)" />
+      <circle cx="14" cy="14" r="7" fill="none" stroke="var(--color-gilt)" strokeWidth="1.2" />
+      <circle cx="14" cy="14" r="3.2" fill="var(--color-gilt)" opacity="0.9" />
+      <circle cx="14" cy="14" r="1.4" fill="var(--color-plum)" />
+    </svg>
+  );
+}
+
+/**
+ * The carved lintel that crowns a card.
+ *
+ * Replaces a full-width stretched `<Torana>`: that art is authored at 200x46
+ * and was being squashed to roughly 300x32 with `preserveAspectRatio="none"`,
+ * which flattened the arch into a thin eyebrow and drew its hanging finials as
+ * whiskers. A lintel is horizontal by nature, so stretching it is harmless —
+ * and the one element that must not distort, the kirtimukha, is laid over the
+ * top at its own aspect ratio.
+ */
+export function ToranaCrown() {
+  return (
+    <div className="pointer-events-none absolute inset-x-0 top-0 overflow-hidden rounded-t-[20px]">
+      <div className="newari-lintel h-7 w-full" />
+      <Kirtimukha className="absolute left-1/2 top-0.5 h-6 w-6 -translate-x-1/2" />
+    </div>
+  );
+}
+
 export function Torana({ className = "" }: { className?: string }) {
   return (
     <svg

@@ -1,5 +1,5 @@
 import BingoClient from "@/components/BingoClient";
-import { Leaves } from "@/components/Motes";
+import Frieze from "@/components/Frieze";
 import { listChecklist } from "@/lib/store";
 
 import { guardPage } from "@/lib/guard";
@@ -13,7 +13,7 @@ export default async function BingoPage() {
 
   return (
     <div className="relative">
-      <Leaves count={5} />
+      <Frieze variant="uk" />
       <BingoClient initialItems={items} />
     </div>
   );

@@ -1,6 +1,6 @@
 import AlbumClient from "@/components/AlbumClient";
 import { SectionTitle } from "@/components/Frame";
-import { Leaves } from "@/components/Motes";
+import Frieze from "@/components/Frieze";
 import { listPhotos } from "@/lib/store";
 
 import { guardPage } from "@/lib/guard";
@@ -14,7 +14,7 @@ export default async function AlbumPage() {
 
   return (
     <div className="relative">
-      <Leaves count={6} />
+      <Frieze variant="valley" />
       <SectionTitle sub="Home, and wherever you are now, in one place.">
         The Album
       </SectionTitle>
