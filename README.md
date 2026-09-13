@@ -171,9 +171,14 @@ widget → pick it.
   `lib/rateLimit.ts`. That limiter is per-instance and in memory, so on
   serverless the real ceiling is looser than configured. It raises the cost of
   abuse; it is not a hard guarantee.
-- **The CSP lives in `middleware.ts`**, not `next.config.ts`, because it needs a
+- **The CSP lives in `proxy.ts`**, not `next.config.ts`, because it needs a
   per-request nonce. A flat `script-src 'self'` silently breaks hydration — the
   page renders but nothing is interactive. Don't "simplify" it.
+- **Plain-HTTP local addresses are a special case in two places**, both routed
+  through `lib/localAddress.ts`: the session cookie drops `Secure`, and the CSP
+  drops `upgrade-insecure-requests`. Either one left on will break sign-in from
+  a phone on the LAN with no error message — the login page loads and the
+  request to `/api/auth` simply never arrives. Deployments keep both.
 - **Tailwind v4 tree-shakes `@theme` variables it can't see used.** The seal
   colours are composed at runtime (`var(--color-seal-${seal})`), so `globals.css`
   uses `@theme static`. Removing `static` makes those colours silently vanish.

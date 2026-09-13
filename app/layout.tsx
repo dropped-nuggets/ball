@@ -18,7 +18,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    /*
+     * Browser extensions commonly stamp attributes onto <html> (a class, a
+     * theme flag) before React hydrates, which React then reports as a
+     * mismatch on an element we render identically on both sides — the server
+     * sends exactly `<html lang="en">`.
+     *
+     * This suppresses the warning for THIS element's own attributes only, one
+     * level deep. It does not reach the children, so real mismatches inside
+     * the app are still reported.
+     */
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link

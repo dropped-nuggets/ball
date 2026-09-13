@@ -1,7 +1,12 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { isLocalAddress } from "@/lib/localAddress";
 
 /**
  * Nonce-based Content-Security-Policy (SEC-19).
+ *
+ * This is Next's Proxy convention — what earlier versions called Middleware,
+ * renamed in Next 16 with the behaviour unchanged. It must stay at the project
+ * root, alongside `app/`, and only one such file is supported per project.
  *
  * A flat `script-src 'self'` does not work with Next: the framework injects
  * inline bootstrap scripts (the one defining `self.__next_r` among them), and
@@ -13,7 +18,7 @@ import { NextResponse, type NextRequest } from "next/server";
  * without listing each one, while still refusing anything injected into the
  * page by a caption, letter or diary entry.
  */
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const nonce = Buffer.from(crypto.randomUUID()).toString("base64");
 
   // Dev needs 'unsafe-eval' for fast refresh; production must not have it.
@@ -21,6 +26,16 @@ export function middleware(request: NextRequest) {
     process.env.NODE_ENV === "development"
       ? `'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-eval'`
       : `'self' 'nonce-${nonce}' 'strict-dynamic'`;
+
+  // `upgrade-insecure-requests` rewrites every request the page makes to
+  // https://. On a plain-HTTP local address that means the dev port over TLS,
+  // which nothing serves, so fetches hang rather than fail loudly: the login
+  // page loads (a typed-in navigation predates the CSP) but POST /api/auth
+  // never leaves the phone. localhost is exempt because browsers already treat
+  // it as trustworthy; a LAN IP is not, which is why only the phone broke.
+  const upgradeInsecure = isLocalAddress(request.headers.get("host"))
+    ? []
+    : [`upgrade-insecure-requests`];
 
   const csp = [
     `default-src 'self'`,
@@ -34,7 +49,7 @@ export function middleware(request: NextRequest) {
     `frame-ancestors 'none'`,
     `base-uri 'self'`,
     `object-src 'none'`,
-    `upgrade-insecure-requests`,
+    ...upgradeInsecure,
   ].join("; ");
 
   const requestHeaders = new Headers(request.headers);

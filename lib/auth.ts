@@ -1,6 +1,7 @@
 import "server-only";
 import crypto from "node:crypto";
 import { cookies, headers } from "next/headers";
+import { isLocalAddress } from "./localAddress";
 
 /**
  * A single shared passphrase guards the private areas — her diary, her
@@ -85,28 +86,13 @@ export async function login(attempt: string): Promise<boolean> {
   // Secure everywhere except plain-HTTP local addresses. A Secure cookie is
   // silently dropped over http://, so marking one here would break sign-in with
   // no visible error — on a local production build, and on a phone testing over
-  // the LAN before the site is deployed.
-  //
-  // Keyed on the host rather than NODE_ENV, since `next start` reports
-  // production while still serving http://localhost. Only loopback and private
-  // (RFC 1918) ranges qualify; a real deployment has a public hostname and
-  // keeps Secure.
-  const host = (await headers()).get("host") ?? "";
-  const hostname = host.split(":")[0];
-  const isLocalAddress =
-    hostname === "localhost" ||
-    hostname.endsWith(".localhost") ||
-    hostname.endsWith(".local") ||
-    hostname === "127.0.0.1" ||
-    hostname === "::1" ||
-    /^10\./.test(hostname) ||
-    /^192\.168\./.test(hostname) ||
-    /^172\.(1[6-9]|2\d|3[01])\./.test(hostname);
+  // the LAN before the site is deployed. See `lib/localAddress.ts`.
+  const local = isLocalAddress((await headers()).get("host"));
 
   // SEC-20: all three flags set explicitly rather than trusting defaults.
   jar.set(COOKIE, sign(expiresAt), {
     httpOnly: true,
-    secure: !isLocalAddress,
+    secure: !local,
     sameSite: "lax",
     path: "/",
     maxAge: MAX_AGE_SECONDS,
