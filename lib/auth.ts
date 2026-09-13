@@ -11,11 +11,11 @@ import { cookies, headers } from "next/headers";
  * and per SEC-04 it is enforced server-side. The client is never trusted.
  */
 
-const COOKIE = "rijuko_session";
+const COOKIE = "rizzu_session";
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 30;
 
 function passphrase(): string {
-  return process.env.RIJUKO_PASSPHRASE ?? "";
+  return process.env.RIZZU_PASSPHRASE ?? "";
 }
 
 /**
@@ -24,7 +24,7 @@ function passphrase(): string {
  */
 function key(): Buffer {
   return crypto.createHash("sha256").update(
-    `${process.env.RIJUKO_SECRET ?? "rijuko"}::${passphrase()}`,
+    `${process.env.RIZZU_SECRET ?? "rizzu"}::${passphrase()}`,
   ).digest();
 }
 

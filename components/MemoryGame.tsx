@@ -31,7 +31,7 @@ export default function MemoryGame() {
   useEffect(() => {
     setDeck(shuffled());
     try {
-      const raw = localStorage.getItem("rijuko:memory-best");
+      const raw = localStorage.getItem("rizzu:memory-best");
       if (raw) setBest(Number(raw));
     } catch {
       // No stored best; nothing to show.
@@ -63,7 +63,7 @@ export default function MemoryGame() {
     setBest((prev) => {
       const next = prev === null ? moves : Math.min(prev, moves);
       try {
-        localStorage.setItem("rijuko:memory-best", String(next));
+        localStorage.setItem("rizzu:memory-best", String(next));
       } catch {
         // Best score just won't persist.
       }

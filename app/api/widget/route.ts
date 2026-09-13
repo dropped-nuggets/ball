@@ -12,14 +12,14 @@ export const dynamic = "force-dynamic";
  * Compact JSON for a phone home-screen widget (iOS Scriptable, Android KWGT).
  *
  * A widget cannot carry a browser session, so it authenticates with the
- * passphrase in an `x-rijuko-key` HEADER. Never a query parameter — those end
+ * passphrase in an `x-rizzu-key` HEADER. Never a query parameter — those end
  * up in server logs, proxy logs and browser history (SEC-07).
  */
 function keyMatches(req: Request): boolean {
-  const expected = process.env.RIJUKO_PASSPHRASE ?? "";
+  const expected = process.env.RIZZU_PASSPHRASE ?? "";
   if (!expected) return true; // No passphrase configured: site is open anyway.
 
-  const given = req.headers.get("x-rijuko-key") ?? "";
+  const given = req.headers.get("x-rizzu-key") ?? "";
   const a = Buffer.from(given, "utf8");
   const b = Buffer.from(expected, "utf8");
   return a.length === b.length && crypto.timingSafeEqual(a, b);

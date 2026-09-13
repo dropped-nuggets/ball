@@ -18,7 +18,7 @@ type Dose = {
   day: number;
 };
 
-const STREAK_KEY = "rijuko:streak";
+const STREAK_KEY = "rizzu:streak";
 
 /**
  * The reason to come back tomorrow: a new UK joke, a new nudge, and a visit

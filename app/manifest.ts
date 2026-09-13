@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { SITE_NAME } from "@/lib/site";
 
 /**
  * Makes the site installable to a phone home screen: own icon, no browser
@@ -10,8 +11,8 @@ import type { MetadataRoute } from "next";
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Rijuko",
-    short_name: "Rijuko",
+    name: SITE_NAME,
+    short_name: SITE_NAME,
     description: "A piece of Pimbahal, wherever you are.",
     start_url: "/",
     display: "standalone",

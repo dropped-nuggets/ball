@@ -4,9 +4,10 @@ import Nav from "@/components/Nav";
 import OpeningGate from "@/components/OpeningGate";
 import PageTransition from "@/components/PageTransition";
 import { authDisabled } from "@/lib/auth";
+import { SITE_NAME, SITE_TAGLINE } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Rijuko — a piece of Nepal, wherever you are",
+  title: `${SITE_NAME} — ${SITE_TAGLINE}`,
   description:
     "An album, a diary, and letters from home. Made so the distance feels a little smaller.",
 };
@@ -30,15 +31,15 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="rijuko-sky min-h-dvh">
+      <body className="rizzu-sky min-h-dvh">
         {/*
           An unprotected deployment must never look like a protected one.
-          This banner is the visible consequence of RIJUKO_PASSPHRASE being unset.
+          This banner is the visible consequence of RIZZU_PASSPHRASE being unset.
         */}
         {authDisabled() && (
           <p className="bg-seal-brick px-4 py-1.5 text-center text-[11px] text-night">
             No passphrase set — everything here is public. Set{" "}
-            <code>RIJUKO_PASSPHRASE</code> before sharing this link.
+            <code>RIZZU_PASSPHRASE</code> before sharing this link.
           </p>
         )}
         <OpeningGate>

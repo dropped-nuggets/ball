@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { SITE_WORDMARK } from "@/lib/site";
 import { useEffect, useState } from "react";
 
 const LINKS = [
@@ -42,7 +43,7 @@ export default function Nav() {
             className="h-3 w-3 rotate-45 border border-gilt bg-violet/40"
           />
           <span className="font-display text-lg tracking-[0.22em] text-gilt">
-            RIJUKO
+            {SITE_WORDMARK}
           </span>
         </Link>
 

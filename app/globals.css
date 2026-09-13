@@ -75,7 +75,7 @@ body {
  * `background-image` (.ankhi-jhyal does) wiped the gradients out and left the
  * element fully transparent — which made the opening-gate curtains see-through.
  */
-.rijuko-sky {
+.rizzu-sky {
   background-color: var(--color-night);
   background-image:
     radial-gradient(

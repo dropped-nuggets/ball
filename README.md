@@ -1,9 +1,26 @@
-# Rijuko
+# Rizzu
 
 A keepsake site for a friend who moved from Pimbahal, Lalitpur to the UK.
 
 Purple, foresty, Newari. An album, a diary she can stick photos onto, sealed
 letters from home, a shared mixtape, a festival calendar, and a playroom.
+
+### Two different names, on purpose
+
+| | Value | Safe to change later? |
+|---|---|---|
+| **Deployment** — the URL, repo, Vercel project | `rizzu` → `rizzu.vercel.app` | **No.** Changing it breaks the live link and every link already shared. |
+| **Display** — wordmark, tab title, PWA name | `Rijuko` | **Yes, any time.** |
+
+To rename what she actually sees, edit two lines in **`lib/site.ts`**:
+
+```ts
+export const SITE_NAME = "Rijuko";
+export const SITE_TAGLINE = "a piece of Nepal, wherever you are";
+```
+
+That's the whole rename. No cookie, environment variable, saved progress or
+URL depends on it, so nobody gets logged out and nothing resets.
 
 ---
 
@@ -23,11 +40,11 @@ kept as downscaled data URLs. That folder is gitignored.
 Copy `.env.example` to `.env.local` and set:
 
 ```bash
-RIJUKO_PASSPHRASE=something-you-two-know
-RIJUKO_SECRET=any-long-random-string
+RIZZU_PASSPHRASE=something-you-two-know
+RIZZU_SECRET=any-long-random-string
 ```
 
-Without `RIJUKO_PASSPHRASE` **the site is completely public** and a red banner
+Without `RIZZU_PASSPHRASE` **the site is completely public** and a red banner
 says so on every page. The diary and the letters are not protected by anything
 else.
 
@@ -61,8 +78,8 @@ else.
 4. **Storage → Blob** → connect. `BLOB_READ_WRITE_TOKEN` is injected.
    Without it the site still works; photos just live in the database instead.
 5. **Settings → Environment Variables**, add:
-   - `RIJUKO_PASSPHRASE` — required
-   - `RIJUKO_SECRET` — any long random string
+   - `RIZZU_PASSPHRASE` — required
+   - `RIZZU_SECRET` — any long random string
    - `NEXT_PUBLIC_HER_NAME` — e.g. `Riju`
    - `NEXT_PUBLIC_UK_CITY`, `UK_LAT`, `UK_LON` — her actual UK city (defaults to London)
 6. Redeploy.
@@ -86,16 +103,16 @@ A true iOS/Android widget needs a native app — a website cannot install one,
 on any host. The free workaround is [Scriptable](https://scriptable.app) on iOS.
 
 `/api/widget` returns everything a widget needs. It authenticates with the
-passphrase in an `x-rijuko-key` **header** (never a URL parameter — those leak
+passphrase in an `x-rizzu-key` **header** (never a URL parameter — those leak
 into logs and history).
 
 ```js
-// Scriptable widget. Set RIJUKO_URL and RIJUKO_KEY below.
-const RIJUKO_URL = "https://your-app.vercel.app/api/widget";
-const RIJUKO_KEY = "your-passphrase";
+// Scriptable widget. Set RIZZU_URL and RIZZU_KEY below.
+const RIZZU_URL = "https://rizzu.vercel.app/api/widget";
+const RIZZU_KEY = "your-passphrase";
 
-const req = new Request(RIJUKO_URL);
-req.headers = { "x-rijuko-key": RIJUKO_KEY };
+const req = new Request(RIZZU_URL);
+req.headers = { "x-rizzu-key": RIZZU_KEY };
 const data = await req.loadJSON();
 
 const w = new ListWidget();

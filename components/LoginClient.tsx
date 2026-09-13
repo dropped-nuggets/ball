@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Panel } from "./Frame";
 import Sigil from "./Sigil";
+import { SITE_WORDMARK } from "@/lib/site";
 
 export default function LoginClient() {
   const router = useRouter();
@@ -49,7 +50,7 @@ export default function LoginClient() {
         ज्वजलपा
       </p>
       <h1 className="mt-2 font-display text-3xl tracking-[0.22em] text-gilt">
-        RIJUKO
+        {SITE_WORDMARK}
       </h1>
       <p className="mt-2 text-xs text-blossom/50">
         This part's just for you.

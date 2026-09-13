@@ -13,7 +13,7 @@ import {
 } from "@/lib/wordle";
 
 const KEYS = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
-const SAVE_KEY = "rijuko:wordle";
+const SAVE_KEY = "rizzu:wordle";
 
 const MARK_STYLE: Record<Mark, string> = {
   correct: "bg-moss border-moss text-night",

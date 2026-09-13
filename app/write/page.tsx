@@ -1,9 +1,10 @@
 import WriteClient from "@/components/WriteClient";
 import SendLocket from "@/components/SendLocket";
 import Motes, { Leaves, Stars } from "@/components/Motes";
+import { SITE_NAME } from "@/lib/site";
 
 export const metadata = {
-  title: "Write to her — Rijuko",
+  title: `Write to her — ${SITE_NAME}`,
   description: "Say the thing. She'll read it.",
 };
 

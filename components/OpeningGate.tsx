@@ -4,10 +4,11 @@ import { useEffect, useState, type ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import Sigil from "./Sigil";
 import Motes, { Leaves, Stars } from "./Motes";
+import { SITE_WORDMARK } from "@/lib/site";
 
 type Phase = "loading" | "burst" | "open" | "done";
 
-const SEEN_KEY = "rijuko:opened";
+const SEEN_KEY = "rizzu:opened";
 
 /**
  * Routes that skip the entry sequence: the login screen and the public write
@@ -110,13 +111,13 @@ export default function OpeningGate({ children }: { children: ReactNode }) {
       <div className="fixed inset-0 z-50">
         {/*
           The lattice sits on its own child layer. Putting .ankhi-jhyal on the
-          same element as .rijuko-sky lets its background-image override the
+          same element as .rizzu-sky lets its background-image override the
           sky's, leaving the curtain transparent.
         */}
 
         {/* Top curtain */}
         <div
-          className={`absolute inset-x-0 top-0 h-1/2 overflow-hidden rijuko-sky ${
+          className={`absolute inset-x-0 top-0 h-1/2 overflow-hidden rizzu-sky ${
             parting ? "anim-curtain-up" : ""
           }`}
         >
@@ -128,7 +129,7 @@ export default function OpeningGate({ children }: { children: ReactNode }) {
 
         {/* Bottom curtain */}
         <div
-          className={`absolute inset-x-0 bottom-0 h-1/2 overflow-hidden rijuko-sky ${
+          className={`absolute inset-x-0 bottom-0 h-1/2 overflow-hidden rizzu-sky ${
             parting ? "anim-curtain-down" : ""
           }`}
         >
@@ -148,7 +149,7 @@ export default function OpeningGate({ children }: { children: ReactNode }) {
                   ज्वजलपा
                 </p>
                 <h1 className="font-display text-3xl tracking-[0.3em] text-gilt">
-                  RIJUKO
+                  {SITE_WORDMARK}
                 </h1>
                 <p className="mt-1 text-[10px] tracking-[0.22em] text-lilac/50 sm:text-xs">
                   A PIECE OF PIMBAHAL, WHEREVER YOU ARE
