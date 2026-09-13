@@ -280,6 +280,307 @@ body {
 }
 
 /* ------------------------------------------------------------------ *
+ * The journey: Patan -> cloud -> London
+ *
+ * Used by the post-login sequence and the home-page flight panel. Motion is
+ * all transform/opacity so it stays on the compositor — this plays on her
+ * phone, not on a desktop GPU.
+ * ------------------------------------------------------------------ */
+
+/* Scenery slides past the camera. Two speeds gives parallax depth. */
+@keyframes pan-slow {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-6%, 0, 0);
+  }
+}
+@keyframes pan-fast {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-18%, 0, 0);
+  }
+}
+
+/* Clouds streaming right-to-left past a cruising window. */
+@keyframes cloud-drift {
+  from {
+    transform: translate3d(115%, 0, 0);
+  }
+  to {
+    transform: translate3d(-115%, 0, 0);
+  }
+}
+
+/* Take-off: along the ground, then up and away to the right. */
+@keyframes plane-climb {
+  0% {
+    transform: translate3d(-18vw, 6vh, 0) rotate(0deg) scale(0.7);
+    opacity: 0;
+  }
+  12% {
+    opacity: 1;
+  }
+  45% {
+    transform: translate3d(10vw, -2vh, 0) rotate(-12deg) scale(0.85);
+  }
+  100% {
+    transform: translate3d(70vw, -38vh, 0) rotate(-20deg) scale(1.15);
+    opacity: 1;
+  }
+}
+
+/* Cruising: nearly still, breathing slightly, as if the camera flies alongside. */
+@keyframes plane-cruise {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-3deg) scale(1.3);
+  }
+  50% {
+    transform: translate3d(0, -1.6vh, 0) rotate(1deg) scale(1.3);
+  }
+}
+
+/* Descent: in from the left, easing down toward the city. */
+@keyframes plane-descend {
+  0% {
+    transform: translate3d(-60vw, -30vh, 0) rotate(14deg) scale(1.15);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(24vw, 6vh, 0) rotate(5deg) scale(0.8);
+    opacity: 1;
+  }
+}
+
+/* The far city lifting into frame as the plane comes down to meet it. */
+@keyframes skyline-rise {
+  from {
+    transform: translate3d(0, 34%, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+/* Whole-scene cross-fade, with a touch of push so cuts feel like camera moves. */
+@keyframes scene-in {
+  from {
+    opacity: 0;
+    transform: scale(1.06);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+@keyframes scene-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+}
+
+/* Canopy breathing in the wind. */
+@keyframes canopy-sway {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) skewX(0deg);
+  }
+  50% {
+    transform: translate3d(-1.2%, 0, 0) skewX(0.6deg);
+  }
+}
+
+/* Caption cards under each scene. */
+@keyframes caption-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0);
+    letter-spacing: 0.5em;
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    letter-spacing: 0.22em;
+  }
+}
+
+.anim-pan-slow {
+  animation: pan-slow 9s linear both;
+}
+.anim-pan-fast {
+  animation: pan-fast 9s linear both;
+}
+.anim-cloud-drift {
+  animation: cloud-drift linear infinite;
+}
+.anim-plane-climb {
+  animation: plane-climb 2.8s cubic-bezier(0.4, 0, 0.5, 1) both;
+}
+.anim-plane-cruise {
+  animation: plane-cruise 3.4s ease-in-out infinite;
+}
+.anim-plane-descend {
+  animation: plane-descend 2.9s cubic-bezier(0.3, 0, 0.4, 1) both;
+}
+.anim-skyline-rise {
+  animation: skyline-rise 1.9s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+.anim-scene-in {
+  animation: scene-in 0.85s ease-out both;
+}
+.anim-scene-out {
+  animation: scene-out 0.6s ease-in both;
+}
+.anim-canopy {
+  animation: canopy-sway 7s ease-in-out infinite;
+}
+.anim-caption {
+  animation: caption-in 1s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+/* ------------------------------------------------------------------ *
+ * The frieze: the valley strip running across the top of each page
+ * ------------------------------------------------------------------ */
+
+/*
+ * Slides exactly one panel width. The -1200px MUST match `W` in Frieze.tsx —
+ * any other value and the loop shows a seam every pass.
+ */
+@keyframes frieze-scroll {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-1200px, 0, 0);
+  }
+}
+
+/* The bus crosses the whole viewport, then restarts off the left edge. */
+@keyframes bus-drive {
+  from {
+    transform: translate3d(-160px, 0, 0);
+  }
+  to {
+    transform: translate3d(100vw, 0, 0);
+  }
+}
+
+/* Suspension, on a Nepali road. */
+@keyframes bus-bounce {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-1.5px) rotate(-0.5deg);
+  }
+  75% {
+    transform: translateY(1px) rotate(0.4deg);
+  }
+}
+
+.anim-frieze {
+  animation: frieze-scroll 120s linear infinite;
+}
+.anim-bus {
+  animation: bus-drive 34s linear infinite;
+}
+.anim-bus-bounce {
+  animation: bus-bounce 0.9s ease-in-out infinite;
+}
+
+/* ------------------------------------------------------------------ *
+ * Tulips
+ * ------------------------------------------------------------------ */
+
+/* The bracelet turns slowly — a loader, not a spinner. */
+@keyframes bracelet-turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/*
+ * Each flower opens, holds, and closes again. Scaled from the base of the
+ * stem (transform-box: fill-box + bottom origin) so it grows upward out of
+ * the cord instead of shrinking toward the middle of the flower.
+ */
+@keyframes tulip-bloom {
+  0%,
+  100% {
+    transform: scale(0.62);
+    opacity: 0.45;
+  }
+  45%,
+  62% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.anim-bracelet {
+  animation: bracelet-turn 14s linear infinite;
+}
+/*
+ * 1.8s, staggered 0.09s per flower in Florals.tsx, so the whole ring has
+ * bloomed by ~2.6s. PageTransition's HOLD_MS is set just past that; change
+ * one and change the other.
+ */
+.anim-bloom {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: tulip-bloom 1.8s ease-in-out infinite;
+}
+
+/* Aged paper for the letters: foxing, a warm bloom, and a faint grain. */
+.paper-vintage {
+  background-color: #f6efe1;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 12% 8%, rgba(176, 137, 84, 0.13), transparent 70%),
+    radial-gradient(ellipse 50% 40% at 88% 92%, rgba(176, 137, 84, 0.11), transparent 70%),
+    radial-gradient(circle at 74% 22%, rgba(150, 110, 60, 0.08), transparent 12%),
+    radial-gradient(circle at 22% 74%, rgba(150, 110, 60, 0.07), transparent 10%),
+    repeating-linear-gradient(
+      92deg,
+      rgba(120, 92, 56, 0.035) 0 1px,
+      transparent 1px 4px
+    ),
+    linear-gradient(174deg, #fbf6ea 0%, #f3e9d7 55%, #ecdfc8 100%);
+}
+
+/* Dawn over the valley, and dusk over the Thames — scene grounds. */
+.sky-patan {
+  background-image:
+    radial-gradient(ellipse 90% 60% at 30% 96%, rgba(232, 163, 61, 0.3), transparent 60%),
+    radial-gradient(ellipse 120% 70% at 50% 100%, rgba(181, 101, 74, 0.28), transparent 66%),
+    linear-gradient(180deg, #140f1c 0%, #2a1f3d 52%, #4a3352 100%);
+}
+.sky-cloud {
+  background-image:
+    radial-gradient(ellipse 100% 60% at 50% 50%, rgba(201, 179, 240, 0.22), transparent 70%),
+    linear-gradient(180deg, #1b1428 0%, #3a2b57 60%, #5b4780 100%);
+}
+.sky-london {
+  background-image:
+    radial-gradient(ellipse 80% 50% at 22% 88%, rgba(111, 184, 217, 0.22), transparent 62%),
+    linear-gradient(180deg, #120e1a 0%, #241a33 55%, #35264d 100%);
+}
+
+/* ------------------------------------------------------------------ *
  * Animation utilities
  * ------------------------------------------------------------------ */
 
@@ -411,6 +712,41 @@ body {
     32px 20px;
 }
 
+/*
+ * The carved timber lintel crowning a card: teak band, a row of dentil blocks
+ * along the bottom, gilt hairline under it. Built from repeating gradients so
+ * it can be any width without distorting — unlike the arch it replaced.
+ */
+.newari-lintel {
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      rgba(46, 33, 27, 0.9) 0 5px,
+      transparent 5px 13px
+    ),
+    linear-gradient(180deg, #6b4a3a 0%, #56392e 60%, #40291f 100%);
+  background-size:
+    100% 5px,
+    100% 100%;
+  background-position:
+    bottom,
+    top;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid rgba(224, 200, 147, 0.45);
+}
+
+/*
+ * Break out of the centred `max-w-5xl` column and span the viewport.
+ *
+ * `100vw` includes the scrollbar, which would otherwise push the page sideways
+ * — body already sets `overflow-x: hidden`, which is what makes this safe.
+ */
+.full-bleed {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
 .gilt-rule {
   height: 1px;
   background: linear-gradient(
@@ -483,7 +819,23 @@ body {
   .anim-sparkle,
   .anim-sweep,
   .anim-page-in,
-  .gilt-shimmer {
+  .gilt-shimmer,
+  .anim-pan-slow,
+  .anim-pan-fast,
+  .anim-cloud-drift,
+  .anim-plane-climb,
+  .anim-plane-cruise,
+  .anim-plane-descend,
+  .anim-skyline-rise,
+  .anim-scene-in,
+  .anim-scene-out,
+  .anim-canopy,
+  .anim-caption,
+  .anim-frieze,
+  .anim-bus,
+  .anim-bus-bounce,
+  .anim-bracelet,
+  .anim-bloom {
     animation: none !important;
   }
 }

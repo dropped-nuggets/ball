@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Panel } from "./Frame";
+import { EmptyState, Panel } from "./Frame";
+import { BotanicalRule, CornerSpray } from "./Florals";
 import { sealFor } from "@/lib/types";
 import type { Letter } from "@/lib/types";
 
@@ -69,9 +70,11 @@ export default function LettersClient({
       </Panel>
 
       {letters.length === 0 ? (
-        <p className="py-12 text-center text-sm text-blossom/45">
-          No letters yet. Send the link around — they'll come.
-        </p>
+        <Panel dark className="overflow-hidden p-0">
+          <EmptyState title="No letters yet.">
+            Send the link around — they&apos;ll come.
+          </EmptyState>
+        </Panel>
       ) : (
         <>
           <p className="text-center text-xs tracking-[0.18em] text-lilac/50">
@@ -90,11 +93,16 @@ export default function LettersClient({
                     className="group w-full text-left"
                   >
                     <Panel
-                      className={`h-full p-5 transition-transform duration-200 group-hover:-translate-y-1 ${
+                      className={`paper-vintage relative h-full overflow-hidden p-5 transition-transform duration-200 group-hover:-translate-y-1 ${
                         letter.opened ? "opacity-80" : ""
                       }`}
                     >
-                      <div className="flex items-start justify-between gap-3">
+                      <CornerSpray
+                        size={78}
+                        className="absolute -left-2 -top-2 opacity-25 transition-opacity duration-200 group-hover:opacity-40"
+                      />
+
+                      <div className="relative flex items-start justify-between gap-3">
                         <div className="min-w-0">
                           <p className="font-display text-lg text-ink">
                             {letter.author || "Someone"}
@@ -121,7 +129,7 @@ export default function LettersClient({
                         </span>
                       </div>
 
-                      <p className="mt-3 text-sm text-ink/60">
+                      <p className="relative mt-3 text-sm text-ink/60">
                         {letter.opened
                           ? `${letter.body.slice(0, 70)}${letter.body.length > 70 ? "…" : ""}`
                           : "Sealed. Tap to open."}
@@ -148,7 +156,7 @@ export default function LettersClient({
             className="max-h-[85vh] w-full max-w-2xl overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <Panel className="anim-rise relative p-7 sm:p-10">
+            <Panel className="paper-vintage anim-rise relative overflow-hidden p-7 sm:p-10">
               {cracking && (
                 <span
                   aria-hidden
@@ -159,19 +167,35 @@ export default function LettersClient({
                 />
               )}
 
-              <div className="text-center">
+              {/*
+               * Tulips in opposite corners rather than all four: a spray in
+               * every corner boxes the text in and reads as a certificate.
+               * Two diagonal corners frame it and leave the page breathing.
+               */}
+              <CornerSpray
+                size={128}
+                className="absolute -left-3 -top-3 opacity-40"
+              />
+              <CornerSpray
+                size={128}
+                className="absolute -bottom-3 -right-3 rotate-180 opacity-40"
+              />
+
+              <div className="relative text-center">
                 <p className="text-[11px] tracking-[0.25em] text-ink/45">
                   A LETTER FROM
                 </p>
                 <p className="mt-1 font-display text-3xl text-ink">
                   {active.author || "Someone"}
                 </p>
-                <div className="gilt-rule mx-auto mt-4 w-32" />
+                <BotanicalRule className="mx-auto mt-3 w-44 opacity-80" />
               </div>
 
-              <p className="letter-body mt-7 text-ink/90">{active.body}</p>
+              <p className="letter-body relative mt-6 text-ink/90">
+                {active.body}
+              </p>
 
-              <p className="mt-8 text-right text-xs text-ink/40">
+              <p className="relative mt-8 text-right font-display text-sm italic text-ink/45">
                 {new Date(active.createdAt).toLocaleDateString(undefined, {
                   day: "numeric",
                   month: "long",
@@ -181,7 +205,7 @@ export default function LettersClient({
 
               <button
                 onClick={() => setActive(null)}
-                className="btn-violet mt-6 w-full py-2.5 text-sm"
+                className="btn-violet relative mt-6 w-full py-2.5 text-sm"
               >
                 Close
               </button>
